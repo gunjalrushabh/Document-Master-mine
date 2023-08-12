@@ -1,0 +1,51 @@
+server:
+ port: 8083
+# Database configuration
+
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+  h2:
+    console:
+      enabled: true
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 1KB
+#  datasource:
+#    url: jdbc:oracle:thin:@localhost:1521:orcl
+#    username: system
+#    password: "1234"  # Note: Since the password contains numbers only, enclose it in double quotes to prevent potential parsing issues.
+#    driver-class-name: oracle.jdbc.OracleDriver
+   # testWhileIdle: true
+    #validationQuery: "SELECT 1"  # Note: Enclose the query in double quotes.
+ 
+      
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+
+springdoc:
+  swagger-ui:
+    enable: true;
+# Modifications
+# If you want to modify properties, just uncomment and change them here.
+
+#spring:
+#  datasource:
+#    driver-class-name: oracle.jdbc.OracleDriver
+
+#spring:
+#  jpa:
+#    database-platform: org.hibernate.dialect.Oracle10gDialect
+
+# File upload properties
+file:
+  upload-dir: "C:/Rushabh 19/Document Master/Document-Master/target/data"  # Note: Enclose the path in double quotes.
+  #C:\\Rushabh 19\\Document Master\\Document-Master\\target\\data
+  #C:\Rushabh 19\Document Master\Document-Master\target\data
+
