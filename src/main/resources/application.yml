@@ -12,7 +12,7 @@ spring:
   servlet:
     multipart:
       enabled: true
-      file-size-threshold: 1KB
+      
 #  datasource:
 #    url: jdbc:oracle:thin:@localhost:1521:orcl
 #    username: system
@@ -45,7 +45,7 @@ springdoc:
 
 # File upload properties
 file:
-  upload-dir: "C:/Rushabh 19/Document Master/Document-Master/target/data"  # Note: Enclose the path in double quotes.
+  upload-dir: "E:/file testing"  # Note: Enclose the path in double quotes.
   #C:\\Rushabh 19\\Document Master\\Document-Master\\target\\data
   #C:\Rushabh 19\Document Master\Document-Master\target\data
 

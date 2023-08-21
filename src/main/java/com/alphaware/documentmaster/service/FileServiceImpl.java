@@ -3,6 +3,8 @@ package com.alphaware.documentmaster.service;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
@@ -59,18 +61,32 @@ public class FileServiceImpl implements FileService{
 	//	filePath = filePath + "/" + file.getOriginalFilename();
 		filePath = filePath + "/" + renamedFile;  //modification
 
-		FileEntity fileobj = repo.save(FileEntity.builder()
-				.file_name(renamedFile)
-				.file_type(file.getContentType()) 
-				.created_at(LocalDate.now()).modified_at(LocalDate.now()).fileUuid(fileUniqueUuid)
-				.filepath(filePath).status("file uploaded  at: " + LocalDate.now()).data(file.getBytes()).build());
-		
-		file.transferTo(new File(filePath)); 
+	
+		String status = "file uploaded at " + LocalDate.now();
 
-		String fileResponseStatus = "File :"+fileobj.getFile_name()+" uploaded Successfully: ";
 		
-		if (fileobj != null) {
-			FileUploadingResponse fileResponse = new FileUploadingResponse(fileobj.getFilepath(), fileobj.getFileUuid(), fileResponseStatus);
+		
+		//file.transferTo(new File(filePath)); 
+		FileEntity uploadingFile = new FileEntity( 
+				renamedFile, 
+				file.getContentType(), 
+				filePath, 
+				LocalDate.now(), 
+				LocalDate.now(), 
+				status, 
+				file.getBytes(), 
+				fileUniqueUuid);
+		uploadingFile.uploadFile();
+		Path uploadedFilePath = Paths.get(uploadingFile.getFilepath());
+		Files.write(uploadedFilePath, uploadingFile.getData());
+		
+		FileEntity fileDataInDb = repo.save(uploadingFile);
+		System.out.println(fileDataInDb);
+
+		String fileResponseStatus = "File :"+uploadingFile.getFile_name()+" uploaded Successfully: ";
+		
+		if (uploadingFile != null) {
+			FileUploadingResponse fileResponse = new FileUploadingResponse(uploadingFile.getFilepath(), uploadingFile.getFileUuid(), fileResponseStatus);
 			return fileResponse;
 		}
 		
@@ -78,7 +94,7 @@ public class FileServiceImpl implements FileService{
 	}
 
 	// final modification---------------------------
-	public byte[] downloadFileFromFileSystem(String uuid) throws IOException, InvalidUuidException  {
+	public FileEntity downloadFileFromFileSystem(String uuid) throws IOException, InvalidUuidException  {
 		
 		Optional<FileEntity> optionalFile = repo.findByFileUuid(uuid);
 		
@@ -88,8 +104,9 @@ public class FileServiceImpl implements FileService{
 			String filePath = optionalFile.get().getFilepath();
 			optionalFile.get().setStatus("File is downloade on " + LocalDate.now());
 			optionalFile.get().setModified_at(LocalDate.now());
-			byte[] filedata = Files.readAllBytes(new File(filePath).toPath());
-			return filedata;
+			//byte[] filedata = Files.readAllBytes(new File(filePath).toPath());
+			System.out.println(optionalFile.get());
+			return optionalFile.get();
 		
 	}
 

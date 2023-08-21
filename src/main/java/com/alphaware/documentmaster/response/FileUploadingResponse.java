@@ -6,9 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 
-@NoArgsConstructor
-@Getter
-@Setter
+
 
 public class FileUploadingResponse {
 
@@ -16,6 +14,10 @@ public class FileUploadingResponse {
 	private String responseUuid;
 	private String status;
 	
+	
+	public FileUploadingResponse() {
+		
+	}
 	public FileUploadingResponse(String responseFilePath, String responseUuid, String status) {
 		
 		this.responseFilePath = responseFilePath;
@@ -32,6 +34,31 @@ public class FileUploadingResponse {
 		return "FileResponse [responseFilePath=" + responseFilePath + ", responseUuid=" + responseUuid + ", status="
 				+ status + "]";
 	}
+
+	public String getResponseFilePath() {
+		return responseFilePath;
+	}
+
+	public void setResponseFilePath(String responseFilePath) {
+		this.responseFilePath = responseFilePath;
+	}
+
+	public String getResponseUuid() {
+		return responseUuid;
+	}
+
+	public void setResponseUuid(String responseUuid) {
+		this.responseUuid = responseUuid;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
 	
 	
 
